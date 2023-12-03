@@ -28,8 +28,8 @@ export const Reactions = () => {
   const [isCreating, setIsCreating] = useState(false);
 
   const [reactions, setReactions] = useState<{
-    x: number;
-    y: number;
+    x: string;
+    y: string;
     value: string;
     id: string;
   }>([]);
@@ -39,11 +39,13 @@ export const Reactions = () => {
       return;
     }
     if (!isCreating) {
-      setReactionPos({x: e.clientX, y: e.clientY});
+      const xPercent = (e.clientX / window.innerWidth) * 100;
+      const yPercent = (e.clientY / window.innerHeight) * 100;
+
+      setReactionPos({x: xPercent + "%", y: yPercent + "%"});
       setIsCreating(true);
       return;
     }
-    console.log(e);
   };
 
   const handleAddReaction = (value: string) => {
@@ -55,7 +57,6 @@ export const Reactions = () => {
   };
 
   const handleAddComment = (id: string, comment: string) => {
-    console.log("add comment", id, comment);
     const reactionIndex = reactions.findIndex((reaction) => reaction.id === id);
     if (reactionIndex === -1) {
       return;
